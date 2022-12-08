@@ -8,9 +8,9 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
-      notchMargin: 10,
+      notchMargin: 10.0,
       child: SizedBox(
-        height: 68.0,
+        height: 65.0,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -40,6 +40,7 @@ class BottomNavBar extends StatelessWidget {
             ),
             const SizedBox(width: 240),
             Material(
+              color: Colors.white,
               child: Center(
                 child: InkWell(
                   focusColor: Colors.transparent,
@@ -54,7 +55,9 @@ class BottomNavBar extends StatelessWidget {
                         Icons.calendar_today,
                         color: GrayColor.color10,
                       ),
-                      Padding(padding: EdgeInsets.only(left: 50))
+                      Padding(
+                        padding: EdgeInsets.only(left: 50),
+                      )
                     ],
                   ),
                 ),
