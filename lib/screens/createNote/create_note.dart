@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import '../constants/color_constanst.dart';
-import '../widgets/bottom_navigationbar.dart';
-import '../utils/utility.dart';
+import 'package:my_diary/constants/color_constanst.dart';
+import 'package:my_diary/utils/utility.dart';
+import 'package:my_diary/widgets/back_button.dart';
 
 class CreateNote extends StatefulWidget {
-  const CreateNote({super.key});
+  const CreateNote({super.key, required this.onSubmitted});
+  final Function onSubmitted;
 
   @override
   State<CreateNote> createState() => _CreateNoteState();
@@ -13,6 +14,10 @@ class CreateNote extends StatefulWidget {
 
 class _CreateNoteState extends State<CreateNote> {
   DateTime selectedDate = DateTime.now();
+  String title = "";
+  String note = "";
+  String mood = "happy";
+  bool isFavorite = false;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -39,11 +44,11 @@ class _CreateNoteState extends State<CreateNote> {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
-      bottomNavigationBar: const BottomNavBar(),
+      bottomNavigationBar: _buildBottomBar(),
     );
   }
 
-  _buildAppBar() {
+  PreferredSize _buildAppBar() {
     return PreferredSize(
       preferredSize: const Size(0, 96),
       child: Padding(
@@ -56,23 +61,27 @@ class _CreateNoteState extends State<CreateNote> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                size: 28,
-                color: Colors.black,
-              ),
+            BackArrowButton(
               onPressed: () => {
                 Navigator.pop(context),
               },
-              splashRadius: 25,
             ),
             ElevatedButton.icon(
               icon: const Icon(
                 Icons.save,
                 color: Colors.white,
               ),
-              onPressed: () => {},
+              onPressed: () => {
+                widget.onSubmitted({
+                  'title': title,
+                  'description': note,
+                  'mood': mood,
+                  'images': [],
+                  'createdAt': DateTime.now(),
+                  'updatedAt': DateTime.now(),
+                }),
+                Navigator.pop(context)
+              },
               label: const Text(
                 "Save",
                 style: TextStyle(
@@ -92,7 +101,7 @@ class _CreateNoteState extends State<CreateNote> {
     );
   }
 
-  _buildBody() {
+  Widget _buildBody() {
     return Container(
       color: GrayColor.color40,
       child: Padding(
@@ -129,6 +138,9 @@ class _CreateNoteState extends State<CreateNote> {
               ),
             ),
             TextFormField(
+              onChanged: (value) => setState(() {
+                title = value;
+              }),
               cursorColor: GrayColor.color10,
               decoration: const InputDecoration(
                 border: InputBorder.none,
@@ -147,6 +159,9 @@ class _CreateNoteState extends State<CreateNote> {
               ),
             ),
             TextFormField(
+              onChanged: (value) => setState(() {
+                note = value;
+              }),
               cursorColor: GrayColor.color10,
               maxLines: 15,
               decoration: const InputDecoration(
@@ -166,6 +181,120 @@ class _CreateNoteState extends State<CreateNote> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomBar() {
+    return BottomAppBar(
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 10.0,
+      child: SizedBox(
+        height: 65.0,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            right: 30.0,
+            left: 30.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildEmojiPopupMenu(),
+              IconButton(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onPressed: () => {},
+                icon: const Icon(
+                  Icons.add_a_photo,
+                  size: 28,
+                  color: GrayColor.color10,
+                ),
+              ),
+              IconButton(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onPressed: () => setState(() {
+                  isFavorite = !isFavorite;
+                }),
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  size: 32,
+                  color: isFavorite ? RedColor.color10 : GrayColor.color10,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmojiPopupMenu() {
+    return Theme(
+      data: Theme.of(context).copyWith(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+      ),
+      child: PopupMenuButton(
+        onSelected: (value) => setState(() {
+          mood = value;
+        }),
+        padding: const EdgeInsets.all(0),
+        splashRadius: 0.0,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+        ),
+        itemBuilder: (context) => [
+          PopupMenuItem(
+            height: 30.0,
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () => {Navigator.pop(context, "happy")},
+                  child: Image.asset(
+                    getMoodEmoji('happy'),
+                    scale: 18,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => {Navigator.pop(context, "laughing")},
+                  child: Image.asset(
+                    getMoodEmoji('laughing'),
+                    scale: 18,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => {Navigator.pop(context, "neutral")},
+                  child: Image.asset(
+                    getMoodEmoji('neutral'),
+                    scale: 18,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => {Navigator.pop(context, "angry")},
+                  child: Image.asset(
+                    getMoodEmoji('angry'),
+                    scale: 18,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => {Navigator.pop(context, "sad")},
+                  child: Image.asset(
+                    getMoodEmoji('sad'),
+                    scale: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+        offset: const Offset(-10.0, -70.0),
+        child: Image.asset(
+          getMoodEmoji(mood),
+          scale: 18,
         ),
       ),
     );

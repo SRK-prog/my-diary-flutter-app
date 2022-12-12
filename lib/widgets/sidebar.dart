@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../constants/color_constanst.dart';
+import 'package:my_diary/constants/color_constanst.dart';
+import 'package:my_diary/screens/settings/settings.dart';
+import 'package:my_diary/utils/utility.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({super.key});
@@ -42,7 +44,14 @@ class Sidebar extends StatelessWidget {
           ListItem(
             title: "Settings",
             icon: Icons.settings,
-            onPressed: () => {},
+            onPressed: () => {
+              Navigator.of(context).push(
+                navigateRoute(
+                  context,
+                  const SettingsScreen(),
+                ),
+              )
+            },
           ),
         ],
       ),

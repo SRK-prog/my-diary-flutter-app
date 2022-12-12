@@ -57,3 +57,7 @@ Route navigateRoute(context, page) {
     },
   );
 }
+
+String getHmaFromTime(TimeOfDay time) {
+  return "${(time.hour > 12 ? time.hour - 12 : time.hour).abs()}:${(time.minute < 10 ? "0${time.minute}" : time.minute)} ${time.hour >= 12 ? "PM" : "AM"}";
+}

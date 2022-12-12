@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../constants/color_constanst.dart';
-import '../widgets/sidebar.dart';
-import '../widgets/bottom_navigationbar.dart';
-import '../widgets/note_card.dart';
-import '../utils/utility.dart';
-import 'note_detail.dart';
-import 'create_note.dart';
+import 'package:my_diary/constants/color_constanst.dart';
+import 'package:my_diary/screens/search/search.dart';
+import 'package:my_diary/widgets/sidebar.dart';
+import 'package:my_diary/widgets/bottom_navigationbar.dart';
+import 'package:my_diary/widgets/note_card.dart';
+import 'package:my_diary/utils/utility.dart';
+import 'package:my_diary/screens/noteDetail/note_detail.dart';
+import 'package:my_diary/screens/createNote/create_note.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,7 +36,11 @@ final List<dynamic> data = [
     'mood': 'neutral',
     'images': [
       "https://source.unsplash.com/random/",
-      "https://source.unsplash.com/random/"
+      "https://source.unsplash.com/random/",
+      "https://source.unsplash.com/random/",
+      "https://source.unsplash.com/random/",
+      "https://source.unsplash.com/random/",
+      "https://source.unsplash.com/random/",
     ],
     'createdAt': DateTime.now(),
     'updatedAt': DateTime.now(),
@@ -91,24 +96,12 @@ final List<dynamic> data = [
 ];
 
 class _HomePageState extends State<HomePage> {
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const CreateNote(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(1.0, 0.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
+  List notes = data;
 
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
+  void _createNote(noteData) {
+    setState(() {
+      notes = [noteData, ...notes];
+    });
   }
 
   @override
@@ -117,14 +110,14 @@ class _HomePageState extends State<HomePage> {
       key: _key,
       appBar: _buildAppBar(),
       body: ListView.builder(
-        itemCount: data.length,
+        itemCount: notes.length,
         itemBuilder: (BuildContext context, int index) {
           return Center(
             child: NoteCard(
-              data: data[index],
+              data: notes[index],
               onPressed: () => {
                 Navigator.of(context).push(
-                  navigateRoute(context, NoteDetail(note: data[index])),
+                  navigateRoute(context, NoteDetail(note: notes[index])),
                 )
               },
             ),
@@ -140,7 +133,10 @@ class _HomePageState extends State<HomePage> {
           child: FloatingActionButton(
             onPressed: () => {
               Navigator.of(context).push(
-                navigateRoute(context, const CreateNote()),
+                navigateRoute(
+                  context,
+                  CreateNote(onSubmitted: (value) => _createNote(value)),
+                ),
               )
             },
             backgroundColor: BlueColor.color10,
@@ -156,7 +152,13 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(),
+      bottomNavigationBar: BottomNavBar(
+        onSearch: () => {
+          Navigator.of(context).push(
+            navigateRoute(context, const SearchScreen()),
+          )
+        },
+      ),
     );
   }
 

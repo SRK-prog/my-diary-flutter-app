@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../constants/color_constanst.dart';
-import '../utils/utility.dart';
+import 'package:my_diary/constants/color_constanst.dart';
+import 'package:my_diary/utils/utility.dart';
 
 class NoteCard extends StatelessWidget {
   const NoteCard({super.key, required this.data, this.onPressed});
