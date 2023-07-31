@@ -22,9 +22,7 @@ class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             BackArrowButton(
-              onPressed: () => {
-                Navigator.pop(context),
-              },
+              onPressed: () => Navigator.pop(context),
             ),
             Text(
               title,

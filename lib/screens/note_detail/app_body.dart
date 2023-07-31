@@ -7,8 +7,9 @@ Widget buildBody(context, note) {
     scrollDirection: Axis.vertical,
     child: Container(
       margin: const EdgeInsets.only(
-        left: 25,
-        right: 25,
+        left: 20,
+        right: 20,
+        bottom: 20,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

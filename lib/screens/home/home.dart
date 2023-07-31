@@ -5,8 +5,8 @@ import 'package:my_diary/widgets/sidebar.dart';
 import 'package:my_diary/widgets/bottom_navigationbar.dart';
 import 'package:my_diary/widgets/note_card.dart';
 import 'package:my_diary/utils/utility.dart';
-import 'package:my_diary/screens/noteDetail/note_detail.dart';
-import 'package:my_diary/screens/createNote/create_note.dart';
+import 'package:my_diary/screens/note_detail/note_detail.dart';
+import 'package:my_diary/screens/create_note/create_note.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -131,14 +131,12 @@ class _HomePageState extends State<HomePage> {
         height: 65.0,
         child: FittedBox(
           child: FloatingActionButton(
-            onPressed: () => {
-              Navigator.of(context).push(
-                navigateRoute(
-                  context,
-                  CreateNote(onSubmitted: (value) => _createNote(value)),
-                ),
-              )
-            },
+            onPressed: () => Navigator.of(context).push(
+              navigateRoute(
+                context,
+                CreateNote(onSubmitted: (value) => _createNote(value)),
+              ),
+            ),
             backgroundColor: BlueColor.color10,
             elevation: 0.0,
             splashColor: Colors.white10,

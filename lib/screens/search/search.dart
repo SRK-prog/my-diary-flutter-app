@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_diary/constants/color_constanst.dart';
 import 'package:my_diary/utils/utility.dart';
-import 'package:my_diary/widgets/back_button.dart';
 import 'package:my_diary/widgets/basic_appbar.dart';
 
 class SearchScreen extends StatefulWidget {

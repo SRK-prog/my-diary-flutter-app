@@ -15,12 +15,12 @@ final List<String> months = <String>[
   "Dec"
 ];
 
-String formattedDateTime(date) {
+String formattedDateTime(DateTime date) {
   return "${date.day} ${months[date.month - 1]} ${date.year}";
 }
 
-String getHmaFromDate(date) {
-  return "${(date.hour > 12 ? date.hour - 12 : date.hour).abs()}:${(date.minute < 10 ? "0${date.minute}" : date.minute)} ${date.hour >= 12 ? "PM" : "AM"}";
+String getHmaFromDate(DateTime date) {
+  return "${(date.hour > 12 ? date.hour - 12 : date.hour == 0 ? 12 : date.hour).abs()}:${(date.minute < 10 ? "0${date.minute}" : date.minute)} ${date.hour >= 12 ? "PM" : "AM"}";
 }
 
 String getMoodEmoji(String type) {
@@ -59,5 +59,5 @@ Route navigateRoute(context, page) {
 }
 
 String getHmaFromTime(TimeOfDay time) {
-  return "${(time.hour > 12 ? time.hour - 12 : time.hour).abs()}:${(time.minute < 10 ? "0${time.minute}" : time.minute)} ${time.hour >= 12 ? "PM" : "AM"}";
+  return "${(time.hour > 12 ? time.hour - 12 : time.hour == 0 ? 12 : time.hour).abs()}:${(time.minute < 10 ? "0${time.minute}" : time.minute)} ${time.hour >= 12 ? "PM" : "AM"}";
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_diary/constants/color_constanst.dart';
 
 class BackArrowButton extends StatelessWidget {
   const BackArrowButton({super.key, required this.onPressed});
@@ -10,7 +11,7 @@ class BackArrowButton extends StatelessWidget {
       icon: const Icon(
         Icons.arrow_back,
         size: 28,
-        color: Colors.black,
+        color: GrayColor.color10,
       ),
       onPressed: onPressed,
       splashRadius: 25,
